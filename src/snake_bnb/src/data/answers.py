@@ -1,7 +1,7 @@
 import mongoengine
 
 
-class Booking(mongoengine.EmbeddedDocument):
+class Booking(mongoengine.Document):
     guest_owner_id = mongoengine.ObjectIdField()
     guest_snake_id = mongoengine.ObjectIdField()
 
