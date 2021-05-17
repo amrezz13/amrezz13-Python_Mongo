@@ -1,16 +1,16 @@
-import datetime
+import random
+from exam import Exam
+from datetime import date
 import mongoengine
 
-
-class Snake(mongoengine.Document):
-    registered_date = mongoengine.DateTimeField(default=datetime.datetime.now)
-    species = mongoengine.StringField(required=True)
-
-    length = mongoengine.FloatField(required=True)
-    name = mongoengine.StringField(required=True)
-    is_venomous = mongoengine.BooleanField(required=True)
-
+class Exams(mongoengine.DynamicDocument):
+    title = mongoengine.StringField(required=True)
+    author = mongoengine.StringField()
+    exame_code = mongoengine.StringField('{}{}{}'.format(title[0:3], random.randrange(100000, 1000000, 1), author[0:3]))
+    creation_date = mongoengine.DateTimeField(date.today())
+    exame = mongoengine.EmbeddedDocumentField(Exam)
     meta = {
         'db_alias': 'core',
-        'collection': 'snakes'
+        'collection': 'exams',
+        'indexs': 'exame_code'
     }

@@ -1,18 +1,16 @@
+import json
+from answer_student import Answer_student
 import mongoengine
 
-
-class Booking(mongoengine.Document):
-    guest_owner_id = mongoengine.ObjectIdField()
-    guest_snake_id = mongoengine.ObjectIdField()
-
-    booked_date = mongoengine.DateTimeField()
-    check_in_date = mongoengine.DateTimeField(required=True)
-    check_out_date = mongoengine.DateTimeField(required=True)
-
-    review = mongoengine.StringField()
-    rating = mongoengine.IntField(default=0)
-
-    @property
-    def duration_in_days(self):
-        dt = self.check_out_date - self.check_in_date
-        return dt.days
+class Answers (mongoengine.Document):
+    student_name = mongoengine.StringField(required=True)
+    student_mail = mongoengine.EmailField(required=True)
+    student_id = mongoengine.IntField(required=True)
+    exame_code = mongoengine.StringField(required=True)
+    student_result = mongoengine.FloatField(default=0)
+    student_answers = mongoengine.EmbeddedDocument(Answer_student)
+    meta = {
+        'db_alias' : 'core',
+        'collection' : 'student_answers',
+        'indexes' : ['student_id', 'exame_code']
+    }
